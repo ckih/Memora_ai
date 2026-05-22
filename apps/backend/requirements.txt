@@ -1,7 +1,10 @@
 fastapi
 uvicorn
-pydantic
-pydantic-settings
 python-multipart
+pydantic-settings
 supabase
 openai
+langchain-openai
+psycopg
+pydantic
+python-jose[cryptography]
