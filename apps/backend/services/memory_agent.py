@@ -19,17 +19,17 @@ class MemoryAgent:
         Conversation:
         {json.dumps(history, indent=2)}
         """
-        summary = self.llm.chat_completion([{"role": "user", "content": prompt}])
+        summary = await self.llm.chat_completion([{"role": "user", "content": prompt}])
 
         # Store reflection as a memory entry
-        embedding = self.llm.embed_text(summary)
+        embedding = await self.llm.embed_text(summary)
         self.repo.create(user_id=user_id, content=summary, embedding=embedding, metadata={"type": "reflection"})
         return summary
 
     async def update_profile_from_feedback(self, user_id: str, feedback: str):
         """Updates user profile and memory based on explicit feedback."""
         # Process feedback to extract structured data (simplified here)
-        embedding = self.llm.embed_text(feedback)
+        embedding = await self.llm.embed_text(feedback)
         self.repo.create(user_id=user_id, content=feedback, embedding=embedding, metadata={"type": "feedback"})
 
         # In a real scenario, we might also update the preferences table here

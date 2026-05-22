@@ -13,7 +13,7 @@ class MatchingEngine:
     async def score_job(self, user_id: str, job_description: str) -> Dict:
         """Scores a job description against candidate memory and preferences."""
         # 1. Embed job description
-        job_embedding = self.llm.embed_text(job_description)
+        job_embedding = await self.llm.embed_text(job_description)
 
         # 2. Vector search for relevant memories
         relevant_memories = self.repo.match_memories(user_id, job_embedding, limit=5)
@@ -32,7 +32,7 @@ class MatchingEngine:
 
         Respond in JSON format: {{"score": 85, "explanation": "..."}}
         """
-        response_text = self.llm.chat_completion([{"role": "user", "content": prompt}], temperature=0)
+        response_text = await self.llm.chat_completion([{"role": "user", "content": prompt}], temperature=0)
 
         try:
             # Basic cleanup of LLM response if it includes markdown blocks

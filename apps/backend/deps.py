@@ -1,11 +1,11 @@
 from typing import Generator
 
-from openai import OpenAI
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 from supabase import Client, create_client
 
 from config import settings
+from services.llm_service import LLMService
 
 engine = create_engine(settings.DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -24,6 +24,5 @@ def get_supabase() -> Generator[Client, None, None]:
     yield client
 
 
-def get_openai() -> Generator[OpenAI, None, None]:
-    client = OpenAI(api_key=settings.OPENAI_API_KEY)
-    yield client
+def get_llm_service() -> LLMService:
+    return LLMService()
