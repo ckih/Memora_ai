@@ -1,14 +1,17 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Memora AI"
     API_V1_STR: str = "/api/v1"
 
     SUPABASE_URL: str
     SUPABASE_KEY: str
+    SUPABASE_JWT_SECRET: str
     OPENAI_API_KEY: str
     DATABASE_URL: str
 
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)
+
 
 settings = Settings()
