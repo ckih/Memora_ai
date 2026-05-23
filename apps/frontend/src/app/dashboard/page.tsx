@@ -21,7 +21,12 @@ export default function DashboardPage() {
   const { data: memories, isLoading } = useQuery<Memory[]>({
     queryKey: ['memories'],
     queryFn: async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/profile/memory`);
+      const { data: { session } } = await supabase.auth.getSession();
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/profile/memory`, {
+        headers: {
+          'Authorization': `Bearer ${session?.access_token}`
+        }
+      });
       const data = await response.json();
       return data.memories;
     },

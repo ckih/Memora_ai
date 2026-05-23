@@ -10,5 +10,11 @@
       "src": "/(.*)",
       "dest": "main.py"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/v1/cron/reflect-weekly",
+      "schedule": "0 0 * * 1"
+    }
   ]
 }

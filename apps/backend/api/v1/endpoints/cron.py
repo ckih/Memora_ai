@@ -30,7 +30,7 @@ async def process_weekly_reflection(user_id: str):
         db.close()
 
 
-@router.post("/reflect-weekly")
+@router.get("/reflect-weekly")
 async def trigger_weekly_reflection(background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     candidate_repo = CandidateRepository(db)
     candidates = candidate_repo.list()

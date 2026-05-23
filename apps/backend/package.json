@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev": "uvicorn main:app --reload",
     "lint": "ruff check . && black --check .",
     "format": "ruff check --fix . && black ."
   }

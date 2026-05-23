@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
+import { createClient } from '@/utils/supabase/client';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -14,12 +15,17 @@ export default function AgentPage() {
     { role: 'assistant', content: "Hello! I'm your Memora AI agent. How can I help you today?" },
   ]);
   const [input, setInput] = useState('');
+  const supabase = createClient();
 
   const mutation = useMutation({
     mutationFn: async (history: Message[]) => {
+      const { data: { session } } = await supabase.auth.getSession();
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/memory/reflect`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session?.access_token}`
+        },
         body: JSON.stringify(history),
       });
       return await response.json();

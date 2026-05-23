@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     SUPABASE_JWT_SECRET: str
     OPENAI_API_KEY: str
     DATABASE_URL: str
+    ALLOWED_ORIGINS: str = "http://localhost:3000"
 
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)
 

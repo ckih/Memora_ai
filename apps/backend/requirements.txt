@@ -11,3 +11,4 @@ python-jose[cryptography]
 sqlalchemy
 alembic
 pgvector
+slowapi

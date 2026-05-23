@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { MatchCard } from '@/components/shared/MatchCard';
+import { createClient } from '@/utils/supabase/client';
 
 interface Match {
   score: number;
@@ -11,12 +12,18 @@ interface Match {
 }
 
 export default function MatchesPage() {
+  const supabase = createClient();
+
   const { data: matches, isLoading, error } = useQuery<Match[]>({
     queryKey: ['matches'],
     queryFn: async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/matches`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session?.access_token}`
+        },
         body: JSON.stringify({ job_description: 'Software Engineer at a high-growth AI startup' }),
       });
       return await response.json();
