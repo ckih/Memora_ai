@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Providers } from '@/components/providers';
+import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
 
 export default function RootLayout({
@@ -20,6 +21,7 @@ export default function RootLayout({
             </div>
           </nav>
           <main>{children}</main>
+          <Analytics />
         </Providers>
       </body>
     </html>
