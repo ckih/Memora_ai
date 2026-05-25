@@ -1,7 +1,13 @@
-import Link from 'next/link';
+import { Sidebar } from '@/components/sidebar';
 import { Providers } from '@/components/providers';
+import { Toaster } from 'sonner';
 import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
+
+export const metadata = {
+  title: 'Memora AI | Your Intelligent Career Memory',
+  description: 'Proactive AI headhunter that remembers your goals and finds your perfect match.',
+}
 
 export default function RootLayout({
   children,
@@ -9,18 +15,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className="dark">
+      <body className="overflow-x-hidden">
         <Providers>
-          <nav className="flex items-center justify-between p-4 border-b">
-            <Link href="/dashboard" className="text-xl font-bold">Memora AI</Link>
-            <div className="flex gap-4">
-              <Link href="/dashboard" className="hover:underline">Dashboard</Link>
-              <Link href="/agent" className="hover:underline">Agent</Link>
-              <Link href="/matches" className="hover:underline">Matches</Link>
-            </div>
-          </nav>
-          <main>{children}</main>
+          <div className="flex min-h-screen">
+            <Sidebar />
+            <main className="flex-1 transition-all duration-300 ml-20 lg:ml-64 relative">
+              {children}
+            </main>
+          </div>
+          <Toaster richColors position="top-right" theme="dark" />
           <Analytics />
         </Providers>
       </body>
