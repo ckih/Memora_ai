@@ -161,7 +161,7 @@ export default function AgentPage() {
             </div>
             <div>
               <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4 flex items-center gap-2">
-                <Sparkles className="w-3.3 text-indigo-400" /> Active Insights
+            <Sparkles className="w-4 text-indigo-400" /> Active Insights
               </h3>
               <div className="space-y-4">
                 <InsightItem label="Career Goal" value="Senior Product Designer" />

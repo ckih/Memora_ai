@@ -22,6 +22,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
+
+  // Apply collapsed state to document body for layout sync
+  useEffect(() => {
+    document.body.dataset.sidebarCollapsed = collapsed.toString();
+  }, [collapsed]);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const supabase = createClient();
@@ -96,7 +101,7 @@ export function Sidebar() {
         <Button
           variant="ghost"
           size="icon"
-          className="hidden lg:flex w-full items-center justify-center mt-2"
+          className="hidden md:flex w-full items-center justify-center mt-2"
           onClick={() => setCollapsed(!collapsed)}
         >
           {collapsed ? <ChevronRight /> : <ChevronLeft />}
@@ -107,13 +112,9 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile Top Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 glass-indigo border-b z-40 px-6 flex items-center justify-between">
-        <div className="flex items-center gap-2 font-bold text-lg">
-          <BrainCircuit className="text-primary w-6 h-6" />
-          <span>Memora</span>
-        </div>
-        <button onClick={() => setMobileOpen(true)} className="p-2 glass rounded-lg">
+      {/* Mobile Hamburger Button */}
+      <div className="md:hidden fixed top-4 left-4 z-40">
+        <button onClick={() => setMobileOpen(true)} className="p-2 glass rounded-lg shadow-lg">
           <Menu className="w-6 h-6" />
         </button>
       </div>
@@ -127,14 +128,14 @@ export function Sidebar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] md:hidden"
             />
             <motion.div
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed left-0 top-0 bottom-0 w-[280px] bg-[#0a0f1e] border-r border-white/10 z-[70] flex flex-col lg:hidden shadow-2xl"
+              className="fixed left-0 top-0 bottom-0 w-[280px] bg-[#0a0f1e] border-r border-white/10 z-[70] flex flex-col md:hidden shadow-2xl"
             >
               <button
                 onClick={() => setMobileOpen(false)}
@@ -150,7 +151,7 @@ export function Sidebar() {
 
       {/* Desktop Sidebar */}
       <aside className={cn(
-        "hidden lg:flex fixed left-0 top-0 h-screen glass border-r z-50 transition-all duration-300 flex-col",
+        "hidden md:flex fixed left-0 top-0 h-screen glass border-r z-50 transition-all duration-300 flex-col",
         collapsed ? "w-20" : "w-64"
       )}>
         <NavContent />
