@@ -13,7 +13,6 @@ import {
   PlusCircle,
   LucideIcon
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import {
   AreaChart,
   Area,
@@ -23,6 +22,7 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
+import { cn } from '@/lib/utils';
 
 interface Memory {
   id: string;
@@ -75,41 +75,41 @@ export default function DashboardPage() {
   }, [supabase, queryClient]);
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-10">
-      <header className="flex justify-between items-end">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-6 md:space-y-10">
+      <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-0">
         <div>
-          <h1 className="text-4xl font-bold mb-2">Welcome Back</h1>
-          <p className="text-muted-foreground flex items-center gap-2">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">Welcome Back</h1>
+          <p className="text-sm md:text-base text-muted-foreground flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             AI memory is synchronized and healthy
           </p>
         </div>
-        <div className="flex gap-4">
-          <button className="flex items-center gap-2 px-4 py-2 rounded-lg glass-indigo hover:bg-indigo-500/20 transition-colors">
+        <div className="w-full md:w-auto">
+          <button className="w-full md:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl glass-indigo hover:bg-indigo-500/20 transition-colors font-semibold">
             <PlusCircle className="w-4 h-4" /> New Interaction
           </button>
         </div>
       </header>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         <StatCard icon={Brain} label="Memory Score" value="94%" color="text-indigo-400" />
         <StatCard icon={Activity} label="Weekly Insights" value="12" color="text-emerald-400" />
         <StatCard icon={TrendingUp} label="Match Quality" value="High" color="text-indigo-400" />
         <StatCard icon={Clock} label="Last Updated" value="2m ago" color="text-muted-foreground" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         {/* Main Chart */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="lg:col-span-2 p-6 rounded-2xl glass space-y-6"
+          className="lg:col-span-2 p-4 md:p-6 rounded-2xl glass space-y-6 overflow-hidden"
         >
-          <h3 className="text-xl font-bold flex items-center gap-2">
+          <h3 className="text-lg md:text-xl font-bold flex items-center gap-2">
             <Activity className="w-5 h-5 text-indigo-400" /> Interaction Frequency
           </h3>
-          <div className="h-[300px] w-full">
+          <div className="h-[250px] md:h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={mockActivityData}>
                 <defs>
@@ -119,7 +119,7 @@ export default function DashboardPage() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
-                <XAxis dataKey="name" stroke="#ffffff40" axisLine={false} tickLine={false} />
+                <XAxis dataKey="name" stroke="#ffffff40" axisLine={false} tickLine={false} fontSize={12} />
                 <YAxis hide />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#0d1117', border: '1px solid #ffffff10', borderRadius: '8px' }}
@@ -137,10 +137,10 @@ export default function DashboardPage() {
           animate={{ opacity: 1, x: 0 }}
           className="space-y-6"
         >
-          <h3 className="text-xl font-bold flex items-center gap-2">
+          <h3 className="text-lg md:text-xl font-bold flex items-center gap-2">
             <Clock className="w-5 h-5 text-emerald-400" /> Memory Pulse
           </h3>
-          <div className="space-y-4 max-h-[450px] overflow-y-auto pr-2 custom-scrollbar">
+          <div className="space-y-4 max-h-[400px] md:max-h-[450px] overflow-y-auto pr-2 custom-scrollbar">
             {isLoading ? (
               [1,2,3].map(i => <div key={i} className="h-24 w-full bg-white/5 rounded-lg animate-pulse" />)
             ) : memories?.length === 0 ? (
@@ -159,12 +159,12 @@ export default function DashboardPage() {
 
 function StatCard({ icon: Icon, label, value, color }: { icon: LucideIcon, label: string, value: string, color: string }) {
   return (
-    <motion.div whileHover={{ y: -5 }} className="p-6 rounded-2xl glass flex flex-col gap-2">
-      <div className="flex justify-between items-center">
-        <span className="text-sm font-medium text-muted-foreground">{label}</span>
-        <Icon className={cn("w-5 h-5", color)} />
+    <motion.div whileHover={{ y: -5 }} className="p-4 md:p-6 rounded-2xl glass flex flex-col gap-1 md:gap-2">
+      <div className="flex justify-between items-start md:items-center">
+        <span className="text-[10px] md:text-sm font-medium text-muted-foreground uppercase tracking-wider md:normal-case md:tracking-normal">{label}</span>
+        <Icon className={cn("w-4 h-4 md:w-5 md:h-5", color)} />
       </div>
-      <span className="text-2xl font-bold">{value}</span>
+      <span className="text-xl md:text-2xl font-bold">{value}</span>
     </motion.div>
   );
 }
